@@ -1,0 +1,8 @@
+node_modules/
+*.log
+.DS_Store
+dist
+.idea
+.git
+.vscode
+utils/mongo.js

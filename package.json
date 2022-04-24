@@ -1,0 +1,25 @@
+{
+  "name": "singhai-project",
+  "version": "1.0.0",
+  "description": "singhai",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "node": "node index.js",
+    "dev": "nodemon --inspect index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayuhuajin/singhai-project.git"
+  },
+  "author": "singhai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayuhuajin/singhai-project/issues"
+  },
+  "homepage": "https://github.com/ayuhuajin/singhai-project#readme",
+  "dependencies": {
+    "koa": "^2.13.4",
+    "nodemon": "^2.0.15"
+  }
+}

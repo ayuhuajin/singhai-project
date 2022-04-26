@@ -18,6 +18,9 @@ module.exports=(app)=>{
   router.get('/demoList',demo.demoList);
   router.post('/addDemo',demo.addDemo);
   router.delete('/delDemo',demo.delDemo);
+  router.put('/updateDemo',demo.updateDemo);
+  router.get('/getDemoById',demo.getDemoById);
+  router.post('/upload/:type',demo.uploadFile);
 
   // ****************************  DEMO END  **********************************//
 

@@ -33,7 +33,30 @@ module.exports={
       await demo.deleteOne({'_id':id});
       ctx.response.body = '删除成功';
     } catch(e) {
+      console.log(e,8989);
       ctx.response.body = '删除失败';
     }
   },
+  // 修改demo
+  updateDemo:async(ctx)=>{
+    let {title,content,id} = ctx.request.body||{}
+    var conditions = {'_id' : id};
+    var update = {$set : { 'title' : title,'content' : content}};
+    try{
+      await demo.updateOne(conditions, update);
+      ctx.response.body = '编辑成功';
+    }catch(err){
+      ctx.response.body='编辑出错';
+    }
+  },
+  // 获取指定demo
+  getDemoById:async(ctx)=>{
+    let id = ctx.query.id;
+    let conditions = { '_id': id };
+    let result = await demo.find(conditions);
+    ctx.response.body = result;
+  },
+  uploadFile:async(ctx)=>{
+    ctx.response.body = "上传附件"
+  }
 }

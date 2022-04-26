@@ -1,4 +1,7 @@
 const demo = require('../mongo/demo');
+const Busboy = require('busboy')
+const path = require('path')
+const fs = require('fs')
 module.exports={
   // demo 列表
   demoList:async(ctx)=>{
@@ -57,6 +60,49 @@ module.exports={
     ctx.response.body = result;
   },
   uploadFile:async(ctx)=>{
-    ctx.response.body = "上传附件"
+    let {req,res} = ctx
+    const bb = Busboy({ headers: req.headers });
+    let dirName = ctx.request.url.split('/')[2];
+    let uploadName='';
+    // 监听文件解析事件
+    bb.on('file', (name, file, info) => {
+      const { filename, encoding, mimeType } = info;
+      var targetPath = path.join(__dirname, `../static/upload/${dirName}`);
+      if (!fs.existsSync(targetPath)) { // 检查是否有“目标”文件夹
+        fs.mkdirSync(targetPath); // 没有就创建
+      }
+      uploadName = filename
+      file.pipe(fs.createWriteStream(`${targetPath}/`+filename))
+      // 开始解析文件流
+      file.on('data', (data) => {
+        console.log(`File [${name}] got ${data.length} bytes`);
+      }).on('close', () => {
+        console.log(`File [${name}] done`);
+      });
+    });
+    bb.on('field', (name, val, info) => {
+      console.log(`Field [${name}]: value: %j`, val);
+    });
+    bb.on('close', () => {
+      console.log('Done parsing form!');
+      res.end();
+    });
+    bb.on('finish', () => {
+      console.log('finish!');
+      // ctx.body = {
+      //   code: 200,
+      //   data: {
+      //     url: `http://${ctx.headers.host}/upload/${dirName}/${uploadName}`
+      //   }
+      // };
+      res.end();
+    });
+    req.pipe(bb);
+    return ctx.body = {
+      code: 200,
+      data: {
+        url: `http://${ctx.headers.host}/upload/${dirName}/${uploadName}`
+      }
+    };
   }
 }

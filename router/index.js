@@ -2,6 +2,8 @@ const Router = require('@koa/router');
 const router = new Router();
 const demo = require('../controller/demo');
 const shop = require('../controller/shop');
+const user = require('../controller/user');
+
 module.exports=(app)=>{
   // log request URL:
   app.use(async (ctx, next) => {
@@ -23,6 +25,17 @@ module.exports=(app)=>{
   router.post('/upload/:type',demo.uploadFile);
 
   // ****************************  DEMO END  **********************************//
+
+  // ****************************  USER AND LOGIN START  **********************************//
+  router.post('/login',user.login);
+  router.get('/userList',user.userList);
+  router.post('/addUser',user.addUser);
+  router.post('/delUser',user.delUser);
+  router.post('/updateUser',user.updateUser);
+  router.get('/userView',user.userView);
+
+  // ****************************  USER AND LOGIN END  **********************************//
+
 
   // ****************************  商品,增,删,改,查  **********************************//
   router.get('/shop/shopList',shop.shopList);

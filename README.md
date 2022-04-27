@@ -22,3 +22,10 @@ koa-static静态资源中间件
 浏览器输入地址http://localhost:3000/image/tes.jpeg
 
 https://www.jianshu.com/p/33f00f98343d
+
+busboy
+实现文件上传
+
+jsonwebtoken 
+使用jsonwebtoken生成、验证token
+用于签发、解析token

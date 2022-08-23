@@ -1,6 +1,10 @@
 let whiteApi = [
-  '/login'
+  '/login',
+  '/demoList',
+  // '/updateDemo',
+  // '/addDemo',
+  // '/getDemoById',
+  // '/delDemo',
+  // '/upload'
 ]
 module.exports = whiteApi;
-
-

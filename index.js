@@ -3,6 +3,7 @@ const path = require('path');
 const app = new Koa();
 const cors = require('koa2-cors');
 const koajwt = require('koa-jwt');
+console.log(333);
 
 const bodyParser = require('koa-bodyparser');
 const static = require('koa-static'); // 引入静态资源中间件
@@ -34,9 +35,9 @@ app.use((ctx, next) => {
 app.use(koajwt({
   secret: 'my_token'
 }).unless({
-  path: [whiteApi] // 不用进行授权的接口,
+  path: whiteApi// 不用进行授权的接口,
 }));
 
 router(app);  //传递app 参数
-app.listen(3000);
-console.log('[demo] start-quick is starting at port 3000');
+app.listen(3001);
+console.log('[demo] start-quick is starting at port 3001');

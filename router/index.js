@@ -4,6 +4,7 @@ const demo = require('../controller/demo');
 const shop = require('../controller/shop');
 const user = require('../controller/user');
 const email = require('../controller/email');
+const company = require('../controller/company');
 
 module.exports=(app)=>{
   // log request URL:
@@ -41,6 +42,10 @@ module.exports=(app)=>{
   // ****************************  SEND EMAIL START  **********************************//
 
   router.post('/ali/sendEmail',email.sendEmail);
+  router.post('/company/companyList',email.companyList);
+  // router.post('/company/sendEmail',email.sendEmail);
+  // router.post('/company/sendEmail',email.sendEmail);
+  // router.post('/company/sendEmail',email.sendEmail);
 
   // ****************************  SEND EMAIL END  **********************************//
 

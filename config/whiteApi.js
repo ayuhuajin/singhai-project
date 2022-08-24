@@ -1,5 +1,6 @@
 let whiteApi = [
-  '/login'
+  '/login',
+  '/ali/sendEmail'
 ]
 module.exports = whiteApi;
 

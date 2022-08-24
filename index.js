@@ -34,9 +34,9 @@ app.use((ctx, next) => {
 app.use(koajwt({
   secret: 'my_token'
 }).unless({
-  path: [whiteApi] // 不用进行授权的接口,
+  path: ['/ali/sendEmail','/login'] // 不用进行授权的接口,
 }));
 
 router(app);  //传递app 参数
-app.listen(3000);
-console.log('[demo] start-quick is starting at port 3000');
+app.listen(12306);
+console.log('[demo] start-quick is starting at port 12306');

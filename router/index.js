@@ -3,6 +3,7 @@ const router = new Router();
 const demo = require('../controller/demo');
 const shop = require('../controller/shop');
 const user = require('../controller/user');
+const email = require('../controller/email');
 
 module.exports=(app)=>{
   // log request URL:
@@ -35,6 +36,13 @@ module.exports=(app)=>{
   router.get('/userView',user.userView);
 
   // ****************************  USER AND LOGIN END  **********************************//
+
+
+  // ****************************  SEND EMAIL START  **********************************//
+
+  router.post('/ali/sendEmail',email.sendEmail);
+
+  // ****************************  SEND EMAIL END  **********************************//
 
 
   // ****************************  商品,增,删,改,查  **********************************//

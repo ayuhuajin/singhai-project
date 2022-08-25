@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let companyScheme = new mongoose.Schema({
-  companyName:String, // 商品名称
+  companyName:String, // 公司名称
   operatingStatus:String, //经营状态
   legalPerson:String,  // 法人
   registeredCapital:String,  //注册资本

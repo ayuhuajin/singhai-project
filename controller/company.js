@@ -46,7 +46,9 @@ module.exports={
       otherPhone,
       email,
       otherEmail,
-      natureOfBusiness
+      natureOfBusiness,
+      remark,
+      sendNum
     } = ctx.request.body[0]
     console.log(companyName,999988877);
     try{
@@ -77,7 +79,9 @@ module.exports={
         otherPhone,
         email,
         otherEmail,
-        natureOfBusiness
+        natureOfBusiness,
+        remark,
+        sendNum
       });
       ctx.response.body = '成功添加公司';
     } catch(err) {
@@ -130,7 +134,9 @@ module.exports={
       otherPhone,
       email,
       otherEmail,
-      natureOfBusiness
+      natureOfBusiness,
+      remark,
+      sendNum
     } = ctx.request.body
     let id = ctx.request.body.id || '';
     console.log(123123,companyName,id);
@@ -162,7 +168,10 @@ module.exports={
       otherPhone,
       email,
       otherEmail,
-      natureOfBusiness}};
+      natureOfBusiness,
+      remark,
+      sendNum
+    }};
     try{
       await company.update(conditions, update);
       ctx.response.body = '编辑成功';

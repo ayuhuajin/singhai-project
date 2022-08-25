@@ -28,6 +28,8 @@ let companyScheme = new mongoose.Schema({
   email:String, //邮箱
   otherEmail:String, //其他邮箱
   natureOfBusiness:String, //经营范围
+  remark:String, //备注
+  sendNum:Number, //发送次数
 });
 
 let company = mongoose.model('company',companyScheme,'company');

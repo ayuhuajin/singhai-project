@@ -54,32 +54,42 @@ module.exports={
     try{
       async function getAll(){
         for(item of list) {
-          console.log(item,898989);
+          console.log(item.companyName,898989);
           let result = await company.find({ 'companyName': item.companyName });
-          console.log(result[0],34567);
-          if(result[0]&&result[0]&&result[0].companyName ===item.companyName) {
-          } else {
+          console.log(result,34567);
+          if(result.length ===0) {
             await company.create(item);
           }
         }
       }
-      await getAll()
+      // await getAll()
 
 
-      // list.forEach(async (element,index) => {
-      //  let result = await company.find({ 'companyName': element.companyName });
-      //  console.log(result[0],34567);
-      //  if(result[0]&&result[0]&&result[0].companyName ===element.companyName) {
-      //  } else {
-      //     await company.create(element);
-      //  }
-      // });
+      // let p =  new Promise((resolve, reject) => {
+      //     setTimeout(()=>{
+      //       resolve()
+      //     },3000)
+      // })
+      // await p
 
 
-      //  await company.updateMany(element,{$addToSet:{'companyName':element.companyName}}, {upsert: true})
+       let p = new Promise(async (resolve,reject)=>{
+        for([index,item] of list.entries()) {
+          console.log(item.companyName,898989);
+          let result = await company.find({ 'companyName': item.companyName });
+          if(result.length ===0) {
+            await company.create(item);
+          }
+        }
+      })
+      await p;
+      ctx.response.body = '成功添加公司';
+
+
+
+      // await company.updateMany(element,{$addToSet:{'companyName':element.companyName}}, {upsert: true})
       // await company.create(list,{$addToSet:{companyName}});
       // await company.updateMany({$addToSet:"companyName"})
-      ctx.response.body = '成功添加公司';
     } catch(err) {
       ctx.body = '出错';
     }

@@ -19,70 +19,66 @@ module.exports={
 
     // });
     // console.log(ctx.request.body,666777888);
-    let {
-      companyName,
-      operatingStatus,
-      legalPerson,
-      registeredCapital,
-      paidInCapital,
-      dateOfIncorporation,
-      approvalDate,
-      businessTerm,
-      province,
-      city,
-      county,
-      unifiedSocialCreditCode,
-      TINumber,
-      registrationNumber,
-      organizationCode,
-      numberOfInsured,
-      companyType,
-      industry,
-      NameUsedBefore,
-      registeredAddress,
-      newAddress,
-      website,
-      phone,
-      otherPhone,
-      email,
-      otherEmail,
-      natureOfBusiness,
-      remark,
-      sendNum
-    } = ctx.request.body[0]
-    console.log(companyName,999988877);
+    // let {
+    //   companyName,
+    //   operatingStatus,
+    //   legalPerson,
+    //   registeredCapital,
+    //   paidInCapital,
+    //   dateOfIncorporation,
+    //   approvalDate,
+    //   businessTerm,
+    //   province,
+    //   city,
+    //   county,
+    //   unifiedSocialCreditCode,
+    //   TINumber,
+    //   registrationNumber,
+    //   organizationCode,
+    //   numberOfInsured,
+    //   companyType,
+    //   industry,
+    //   NameUsedBefore,
+    //   registeredAddress,
+    //   newAddress,
+    //   website,
+    //   phone,
+    //   otherPhone,
+    //   email,
+    //   otherEmail,
+    //   natureOfBusiness,
+    //   remark,
+    //   sendNum
+    // } = ctx.request.body[0]
+    // console.log(companyName,999988877);
     try{
-      await company.create({
-        companyName,
-        operatingStatus,
-        legalPerson,
-        registeredCapital,
-        paidInCapital,
-        dateOfIncorporation,
-        approvalDate,
-        businessTerm,
-        province,
-        city,
-        county,
-        unifiedSocialCreditCode,
-        TINumber,
-        registrationNumber,
-        organizationCode,
-        numberOfInsured,
-        companyType,
-        industry,
-        NameUsedBefore,
-        registeredAddress,
-        newAddress,
-        website,
-        phone,
-        otherPhone,
-        email,
-        otherEmail,
-        natureOfBusiness,
-        remark,
-        sendNum
-      });
+      async function getAll(){
+        for(item of list) {
+          console.log(item,898989);
+          let result = await company.find({ 'companyName': item.companyName });
+          console.log(result[0],34567);
+          if(result[0]&&result[0]&&result[0].companyName ===item.companyName) {
+          } else {
+            await company.create(item);
+          }
+        }
+      }
+      await getAll()
+
+
+      // list.forEach(async (element,index) => {
+      //  let result = await company.find({ 'companyName': element.companyName });
+      //  console.log(result[0],34567);
+      //  if(result[0]&&result[0]&&result[0].companyName ===element.companyName) {
+      //  } else {
+      //     await company.create(element);
+      //  }
+      // });
+
+
+      //  await company.updateMany(element,{$addToSet:{'companyName':element.companyName}}, {upsert: true})
+      // await company.create(list,{$addToSet:{companyName}});
+      // await company.updateMany({$addToSet:"companyName"})
       ctx.response.body = '成功添加公司';
     } catch(err) {
       ctx.body = '出错';

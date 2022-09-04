@@ -5,10 +5,15 @@ module.exports={
     let total,result;
     let limit =ctx.query.pageSize||10;
     let currentPage =ctx.query.pageNumber||1;
-    total = await company.find({});
+    let {isSend,websit,email,phone} = ctx.query
+    console.log(isSend,websit,email,phone);
+    // let isSend =ctx.query.isSend || false
+    // let isSend =ctx.query.isSend || false
+    // let isSend =ctx.query.isSend || false
+    total = await company.count({});
     result = await company.find({}).skip((parseInt(currentPage)-1)*parseInt(limit)).limit(parseInt(limit));
     ctx.response.body = {
-      total:total.length,
+      total:total,
       data:result
     };
   },
@@ -54,7 +59,6 @@ module.exports={
     try{
       async function getAll(){
         for(item of list) {
-          console.log(item.companyName,898989);
           let result = await company.find({ 'companyName': item.companyName });
           console.log(result,34567);
           if(result.length ===0) {
@@ -75,14 +79,13 @@ module.exports={
 
        let p = new Promise(async (resolve,reject)=>{
         for([index,item] of list.entries()) {
-          console.log(item.companyName,898989);
           let result = await company.find({ 'companyName': item.companyName });
           if(result.length ===0) {
             await company.create(item);
           }
         }
       })
-      await p;
+      await p();
       ctx.response.body = '成功添加公司';
 
 

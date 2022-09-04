@@ -16,7 +16,11 @@ app.use(static(path.join(__dirname,'./static')));
 
 app.use(cors());
 // parse request body:
-app.use(bodyParser());  //bodypaser要在router之前加载才能生效。
+app.use(bodyParser({
+  formLimit:'1024mb',
+  textLimit:'1024mb',
+  jsonLimit:'1024mb'
+}));  //bodypaser要在router之前加载才能生效。
 
 // 错误处理 返回401 中间件对token进行验证
 app.use((ctx, next) => {

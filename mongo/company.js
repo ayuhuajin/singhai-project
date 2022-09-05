@@ -30,6 +30,9 @@ let companyScheme = new mongoose.Schema({
   natureOfBusiness:String, //经营范围
   remark:String, //备注
   sendNum:Number, //发送次数
+  haveWebsite:Boolean,
+  havePhone:Boolean,
+  haveEmail:Boolean
 });
 
 let company = mongoose.model('company',companyScheme,'company');

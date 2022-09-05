@@ -42,7 +42,7 @@ module.exports=(app)=>{
   // ****************************  SEND EMAIL START  **********************************//
 
   router.post('/ali/sendEmail',email.sendEmail);
-  router.get('/company/getCompanyList',company.companyList);
+  router.post('/company/getCompanyList',company.companyList);
   router.post('/company/addCompany',company.addCompany);
   router.post('/company/delCompany',company.delCompany);
   router.get('/company/companyView',company.companyView);

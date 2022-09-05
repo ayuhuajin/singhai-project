@@ -5,12 +5,37 @@ module.exports={
     let total,result;
     let limit =ctx.query.pageSize||10;
     let currentPage =ctx.query.pageNumber||1;
-    let {isSend,websit,email,phone} = ctx.query
-    console.log(isSend,websit,email,phone);
+    let {isSend,haveWebsite,havePhone,haveEmail} = ctx.request.body
+    console.log(isSend,haveWebsite,havePhone,haveEmail);
+    // let options = {$and:[]}
+    // if(isSend) {
+    //   let kk = {isSend:{'$eq':isSend}})
+    //   options.$and.push(kk)
+    // }
+    // if(options.$and.length==0) {
+    //   options={}
+    // }
+    // console.log(options,666);
+    // console.log(list,898);
     // let isSend =ctx.query.isSend || false
     // let isSend =ctx.query.isSend || false
     // let isSend =ctx.query.isSend || false
-    total = await company.count({});
+    // console.log(website,1234);
+    // if(website=='') {
+    //   console.log(123);
+    //   total = await company.count({})
+    // } else {
+    //   if(website) {
+    //     total = await company.count({website:{$ne:'-'}})
+    //   } else {
+    //     total = await company.count({website:{$eq:'-'}})
+    //   }
+    // }
+    // total = await company.count({});
+
+    // {$and:[{haveWebsite:{$eq:haveWebsite}},{havePhone:{$eq:havePhone}},{haveEmail:{$eq:haveEmail}}]}
+    total = await company.find().count()
+    console.log(total);
     result = await company.find({}).skip((parseInt(currentPage)-1)*parseInt(limit)).limit(parseInt(limit));
     ctx.response.body = {
       total:total,
@@ -57,18 +82,16 @@ module.exports={
     // } = ctx.request.body[0]
     // console.log(companyName,999988877);
     try{
-      async function getAll(){
-        for(item of list) {
-          let result = await company.find({ 'companyName': item.companyName });
-          console.log(result,34567);
-          if(result.length ===0) {
-            await company.create(item);
-          }
-        }
-      }
+      // async function getAll(){
+      //   for(item of list) {
+      //     let result = await company.find({ 'companyName': item.companyName });
+      //     console.log(result,34567);
+      //     if(result.length ===0) {
+      //       await company.create(item);
+      //     }
+      //   }
+      // }
       // await getAll()
-
-
       // let p =  new Promise((resolve, reject) => {
       //     setTimeout(()=>{
       //       resolve()
@@ -87,13 +110,8 @@ module.exports={
       })
       await p();
       ctx.response.body = '成功添加公司';
-
-
-
-      // await company.updateMany(element,{$addToSet:{'companyName':element.companyName}}, {upsert: true})
-      // await company.create(list,{$addToSet:{companyName}});
-      // await company.updateMany({$addToSet:"companyName"})
     } catch(err) {
+      console.log(err,1234);
       ctx.body = '出错';
     }
   },
@@ -189,3 +207,26 @@ module.exports={
     }
   },
 }
+
+
+// db.getCollection("company").find({companyName:'厦门普华天元咨询管理有限公司'},{}) //获取公司名称为厦门普华天元咨询管理有限公司
+// db.getCollection("company").find({sendNum:{$eq:10}},{})   // 获取==10
+// db.getCollection("company").find({sendNum:{$in:[10,15]}},{})  // 获取 10,15
+// db.getCollection("company").distinct("companyName")   //获取公司名称集合  并去重
+
+// db.getCollection("company").find({companyName:{$exists:true}})   //$exists 查询某字段是否为空的数据
+// 查询sendnum ===10 或者otherphone ==13686888777
+// db.getCollection("company").find({$or:[{sendNum:{$eq:10}},{otherPhone:{$eq:'13686888777'}}]})
+
+// 查询sendnum ===10 并且otherphone ==15396276106
+// db.getCollection("company").find({$and:[{sendNum:{$eq:10}},{otherPhone:{$eq:'15396276106'}}]})
+// 查找大于2019 小于2018的值
+// Model.find({ year: { $gt: 2019, $lt: 2018 } });
+
+// sort	排序
+// skip	跳过
+// limit	限制
+// select	显示字段
+// exect	执行
+// count	计数
+// distinct	去重

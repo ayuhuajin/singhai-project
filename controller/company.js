@@ -6,7 +6,7 @@ module.exports={
     let limit =ctx.query.pageSize||10;
     let currentPage =ctx.query.pageNumber||1;
     let {isSend,haveWebsite,havePhone,haveEmail} = ctx.request.body
-    console.log(isSend,haveWebsite,havePhone,haveEmail);
+    // console.log(isSend,haveWebsite,havePhone,haveEmail);
     // let options = {$and:[]}
     // if(isSend) {
     //   let kk = {isSend:{'$eq':isSend}})
@@ -35,7 +35,7 @@ module.exports={
 
     // {$and:[{haveWebsite:{$eq:haveWebsite}},{havePhone:{$eq:havePhone}},{haveEmail:{$eq:haveEmail}}]}
     total = await company.find().count()
-    console.log(total);
+    // console.log(total);
     result = await company.find({}).skip((parseInt(currentPage)-1)*parseInt(limit)).limit(parseInt(limit));
     ctx.response.body = {
       total:total,

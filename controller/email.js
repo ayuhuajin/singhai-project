@@ -25,29 +25,36 @@ module.exports={
     let data = ctx.request.body;
     let id = data.companyId
     mailOptions = data
-    // console.log(data,12354,mailOptions);
     var conditions = {'_id' : id};
     let result = await company.find(conditions);
-    // console.log(result[0].sendNum,88888999);
     let sendNum = result[0].sendNum + 1
-    console.log(sendNum,"dddddzjegddd");
     var update = {$set : {
       sendNum
     }};
-    try{
-      await company.update(conditions, update);
-      ctx.response.body = '编辑成功';
-    }catch(err){
-      ctx.response.body='编辑出错';
+
+    function sendMessage(){
+      return new Promise((resolve,reject)=>{
+        // setTimeout(async ()=>{
+        //   await company.updateOne(conditions, update);
+        //   resolve({response:'成功了'})
+        // },1000)
+        transporter.sendMail(mailOptions, async function(error, info){
+          if(error){
+            reject(error)
+            // return ctx.response.body =error
+          } else {
+            await company.updateOne(conditions, update);
+            console.log('Message sent: ' + info.response);
+            resolve(info)
+          }
+        });
+      })
     }
-    ctx.response.body = '成功';
-    return
-    transporter.sendMail(mailOptions, function(error, info){
-      if(error){
-        return console.log(error);
-      }
-      console.log('Message sent: ' + info.response);
-      ctx.response.body = '成功';
-    });
+    try{
+      let obj = await sendMessage(mailOptions)
+      return ctx.response.body = obj.response
+    } catch(err){
+      return ctx.response.body = err
+    }
   },
 };

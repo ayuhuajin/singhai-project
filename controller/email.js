@@ -31,7 +31,6 @@ module.exports={
     var update = {$set : {
       sendNum
     }};
-
     function sendMessage(){
       return new Promise((resolve,reject)=>{
         // setTimeout(async ()=>{
@@ -40,6 +39,7 @@ module.exports={
         // },1000)
         transporter.sendMail(mailOptions, async function(error, info){
           if(error){
+            await company.updateOne(conditions, {$set:{remark:error}});
             reject(error)
             // return ctx.response.body =error
           } else {

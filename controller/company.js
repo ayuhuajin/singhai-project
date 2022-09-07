@@ -6,37 +6,22 @@ module.exports={
     let limit =ctx.query.pageSize||10;
     let currentPage =ctx.query.pageNumber||1;
     let {isSend,haveWebsite,havePhone,haveEmail} = ctx.request.body
-    // console.log(isSend,haveWebsite,havePhone,haveEmail);
-    // let options = {$and:[]}
-    // if(isSend) {
-    //   let kk = {isSend:{'$eq':isSend}})
-    //   options.$and.push(kk)
-    // }
-    // if(options.$and.length==0) {
-    //   options={}
-    // }
-    // console.log(options,666);
-    // console.log(list,898);
-    // let isSend =ctx.query.isSend || false
-    // let isSend =ctx.query.isSend || false
-    // let isSend =ctx.query.isSend || false
-    // console.log(website,1234);
-    // if(website=='') {
-    //   console.log(123);
-    //   total = await company.count({})
-    // } else {
-    //   if(website) {
-    //     total = await company.count({website:{$ne:'-'}})
-    //   } else {
-    //     total = await company.count({website:{$eq:'-'}})
-    //   }
-    // }
-    // total = await company.count({});
 
-    // {$and:[{haveWebsite:{$eq:haveWebsite}},{havePhone:{$eq:havePhone}},{haveEmail:{$eq:haveEmail}}]}
-    total = await company.find().count()
-    // console.log(total);
-    result = await company.find({}).skip((parseInt(currentPage)-1)*parseInt(limit)).limit(parseInt(limit));
+    let _isSend =isSend!==null? {isSend:{$eq:isSend}}:null
+    let _haveWebsite = haveWebsite!==null?{haveWebsite:{$eq:haveWebsite}}:null
+    let _havePhone = havePhone!==null?{havePhone:{$eq:havePhone}}:null
+    let _haveEmail = haveEmail!==null?{haveEmail:{$eq:haveEmail}}:null
+    let options =[_isSend,_haveWebsite,_havePhone,_haveEmail]
+    let filter = options.filter((item)=>{
+      return item!==null
+    })
+    if(!_isSend&&!_haveWebsite&&!_havePhone&&!_haveEmail){
+      total= await company.find({}).count()
+      result = await company.find({}).skip((parseInt(currentPage)-1)*parseInt(limit)).limit(parseInt(limit));
+    } else {
+      total= await company.find({$and:filter}).count()
+      result = await company.find({$and:filter}).skip((parseInt(currentPage)-1)*parseInt(limit)).limit(parseInt(limit));
+    }
     ctx.response.body = {
       total:total,
       data:result
@@ -82,16 +67,22 @@ module.exports={
     // } = ctx.request.body[0]
     // console.log(companyName,999988877);
     try{
-      // async function getAll(){
-      //   for(item of list) {
-      //     let result = await company.find({ 'companyName': item.companyName });
-      //     console.log(result,34567);
-      //     if(result.length ===0) {
-      //       await company.create(item);
-      //     }
-      //   }
-      // }
-      // await getAll()
+      async function getAll(){
+        return new Promise(async(resolve,reject)=>{
+          for([index,item] of list.entries()) {
+            let result = await company.find({ 'companyName': item.companyName });
+            if(result.length ===0) {
+
+              await company.create(item);
+              if(index ==57) {
+                resolve()
+              }
+              console.log(index,888999);
+            }
+          }
+        })
+      }
+      await getAll()
       // let p =  new Promise((resolve, reject) => {
       //     setTimeout(()=>{
       //       resolve()
@@ -100,15 +91,15 @@ module.exports={
       // await p
 
 
-       let p = new Promise(async (resolve,reject)=>{
-        for([index,item] of list.entries()) {
-          let result = await company.find({ 'companyName': item.companyName });
-          if(result.length ===0) {
-            await company.create(item);
-          }
-        }
-      })
-      await p();
+      // let p = new Promise(async (resolve,reject)=>{
+      //   for([index,item] of list.entries()) {
+      //     let result = await company.find({ 'companyName': item.companyName });
+      //     if(result.length ===0) {
+      //       await company.create(item);
+      //     }
+      //   }
+      // })
+      // await p;
       ctx.response.body = '成功添加公司';
     } catch(err) {
       console.log(err,1234);
@@ -197,7 +188,11 @@ module.exports={
       otherEmail,
       natureOfBusiness,
       remark,
-      sendNum
+      sendNum,
+      isSend:sendNum>0?true:false,
+      haveWebsite:website.length>1?true:false,
+      havePhone:phone.length>1?true:false,
+      haveEmail:email.length>1?true:false,
     }};
     try{
       await company.update(conditions, update);

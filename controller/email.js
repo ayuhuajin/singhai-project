@@ -29,7 +29,7 @@ module.exports={
     let result = await company.find(conditions);
     let sendNum = result[0].sendNum + 1
     var update = {$set : {
-      sendNum
+      sendNum:sendNum,isSend:true
     }};
     function sendMessage(){
       return new Promise((resolve,reject)=>{

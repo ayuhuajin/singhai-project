@@ -32,7 +32,8 @@ let companyScheme = new mongoose.Schema({
   sendNum:Number, //发送次数
   haveWebsite:Boolean,
   havePhone:Boolean,
-  haveEmail:Boolean
+  haveEmail:Boolean,
+  isSend:Boolean
 });
 
 let company = mongoose.model('company',companyScheme,'company');

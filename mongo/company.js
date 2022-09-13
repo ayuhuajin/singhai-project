@@ -29,6 +29,8 @@ let companyScheme = new mongoose.Schema({
   otherEmail:String, //其他邮箱
   natureOfBusiness:String, //经营范围
   remark:String, //备注
+  sendContent:String, //发送内容
+  clickWebsite:Boolean, //是否点击过网站
   sendNum:Number, //发送次数
   haveWebsite:Boolean,
   havePhone:Boolean,

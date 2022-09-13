@@ -154,7 +154,13 @@ module.exports={
       otherEmail,
       natureOfBusiness,
       remark,
-      sendNum
+      sendNum,
+      sendContent, //发送内容
+      clickWebsite, //是否点击过网站
+      haveWebsite,
+      havePhone,
+      haveEmail,
+      isSend
     } = ctx.request.body
     let id = ctx.request.body.id || '';
     console.log(123123,companyName,id);
@@ -189,13 +195,15 @@ module.exports={
       natureOfBusiness,
       remark,
       sendNum,
+      sendContent,
+      clickWebsite,
       isSend:sendNum>0?true:false,
       haveWebsite:website.length>1?true:false,
       havePhone:phone.length>1?true:false,
       haveEmail:email.length>1?true:false,
     }};
     try{
-      await company.update(conditions, update);
+      await company.updateOne(conditions, update);
       ctx.response.body = '编辑成功';
     }catch(err){
       ctx.response.body='编辑出错';

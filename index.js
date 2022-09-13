@@ -38,7 +38,7 @@ app.use((ctx, next) => {
 app.use(koajwt({
   secret: 'my_token'
 }).unless({
-  path: ['/ali/sendEmail','/login'] // 不用进行授权的接口,
+  path: ['/ali/sendEmail','/login','/company/getCompanyList','/company/updateCompany','/company/CompanyView'] // 不用进行授权的接口,
 }));
 
 router(app);  //传递app 参数

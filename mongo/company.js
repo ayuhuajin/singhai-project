@@ -35,7 +35,9 @@ let companyScheme = new mongoose.Schema({
   haveWebsite:Boolean,
   havePhone:Boolean,
   haveEmail:Boolean,
-  isSend:Boolean
+  isSend:Boolean,
+  emailValid:Boolean,
+  emailCheck:Boolean
 });
 
 let company = mongoose.model('company',companyScheme,'company');

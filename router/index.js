@@ -47,6 +47,7 @@ module.exports=(app)=>{
   router.post('/company/delCompany',company.delCompany);
   router.get('/company/companyView',company.companyView);
   router.post('/company/updateCompany',company.updateCompany);
+  router.post('/company/updateBatch',company.vertifyEmailBatch);
 
   // ****************************  SEND EMAIL END  **********************************//
 

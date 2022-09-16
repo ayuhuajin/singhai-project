@@ -5,17 +5,19 @@ module.exports={
     let total,result;
     let limit =ctx.query.pageSize||10;
     let currentPage =ctx.query.pageNumber||1;
-    let {isSend,haveWebsite,havePhone,haveEmail} = ctx.request.body
+    let {isSend,haveWebsite,havePhone,haveEmail,emailValid,emailCheck} = ctx.request.body
 
     let _isSend =isSend!==null? {isSend:{$eq:isSend}}:null
     let _haveWebsite = haveWebsite!==null?{haveWebsite:{$eq:haveWebsite}}:null
     let _havePhone = havePhone!==null?{havePhone:{$eq:havePhone}}:null
     let _haveEmail = haveEmail!==null?{haveEmail:{$eq:haveEmail}}:null
-    let options =[_isSend,_haveWebsite,_havePhone,_haveEmail]
+    let _emailValid = emailValid!==null?{emailValid:{$eq:emailValid}}:null
+    let _emailCheck = emailCheck!==null?{emailCheck:{$eq:emailCheck}}:null
+    let options =[_isSend,_haveWebsite,_havePhone,_haveEmail,_emailValid,_emailCheck]
     let filter = options.filter((item)=>{
       return item!==null
     })
-    if(!_isSend&&!_haveWebsite&&!_havePhone&&!_haveEmail){
+    if(!_isSend&&!_haveWebsite&&!_havePhone&&!_haveEmail&&!_emailValid&&!_emailCheck){
       total= await company.find({}).count()
       result = await company.find({}).skip((parseInt(currentPage)-1)*parseInt(limit)).limit(parseInt(limit));
     } else {
@@ -209,6 +211,17 @@ module.exports={
       ctx.response.body='编辑出错';
     }
   },
+  // 删除公司
+  vertifyEmailBatch:async(ctx)=>{
+    let companyNames = ctx.request.body;
+    try{
+      let count = await company.find({companyName:{$in:companyNames}})
+      await company.updateMany({companyName:{$in:companyNames}},{$set: {"haveWebsite":true}});
+      ctx.response.body = '批量设置成功';
+    } catch(e) {
+      ctx.response.body = '批量设置失败';
+    }
+  },
 }
 
 
@@ -225,6 +238,8 @@ module.exports={
 // db.getCollection("company").find({$and:[{sendNum:{$eq:10}},{otherPhone:{$eq:'15396276106'}}]})
 // 查找大于2019 小于2018的值
 // Model.find({ year: { $gt: 2019, $lt: 2018 } });
+
+//  Model.find({email:{$regex:eval(`/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/`)}})
 
 // sort	排序
 // skip	跳过

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ayuhuajin/singhai-project#readme",
   "dependencies": {
     "@koa/router": "^10.1.1",
+    "axios": "^0.27.2",
     "busboy": "^1.6.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",

@@ -1,5 +1,7 @@
 
 const company = require('../mongo/company');
+const Axios = require('axios');
+
 module.exports={
   companyList:async(ctx)=>{
     let total,result;
@@ -211,15 +213,35 @@ module.exports={
       ctx.response.body='编辑出错';
     }
   },
-  // 删除公司
+  // 批量更新
   vertifyEmailBatch:async(ctx)=>{
+    // Axios.get(
+    //     `https://api.mail-verifier.xyz/?cmd=verify&key=8680244EB6827DFE5A11F7A1A0BCF9DA&email=kai.lin1@kiongroup.com,1932182001@qq.com`
+    //   ).then(result => {
+    //     console.log(result,8989);
+    //   });
     let companyNames = ctx.request.body;
     try{
       let count = await company.find({companyName:{$in:companyNames}})
-      await company.updateMany({companyName:{$in:companyNames}},{$set: {"haveWebsite":true}});
+      await company.updateMany({companyName:{$in:companyNames}},{$set: {"emailCheck":true}});
       ctx.response.body = '批量设置成功';
     } catch(e) {
       ctx.response.body = '批量设置失败';
+    }
+  },
+  // 更新
+  updateSwitch:async(ctx)=>{
+    let id = ctx.request.body.id || '';
+    console.log(ctx.request.body,67667);
+    let emailValid = ctx.request.body.emailValid ;
+    var conditions = {'_id' : id};
+    var update = {$set : { 'emailValid' : emailValid}};
+    try{
+      console.log(conditions, update);
+      await company.updateOne(conditions, update);
+      ctx.response.body = '编辑成功';
+    }catch(err){
+      ctx.response.body='编辑出错';
     }
   },
 }

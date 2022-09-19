@@ -123,6 +123,10 @@ module.exports={
   // 公司详情
   companyView:async(ctx)=>{
     let id = ctx.query.id;
+    if(!id) {
+      ctx.response.body = '没有Id';
+      return
+    }
     let conditions = { '_id': id };
     let result = await company.find(conditions);
     ctx.response.body = result;

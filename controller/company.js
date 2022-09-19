@@ -171,7 +171,6 @@ module.exports={
       isSend
     } = ctx.request.body
     let id = ctx.request.body.id || '';
-    console.log(123123,companyName,id);
 
     var conditions = {'_id' : id};
     var update = {$set : { companyName,
